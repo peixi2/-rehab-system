@@ -42,12 +42,19 @@ docker compose up --build -d
 | therapist | 康复治疗师 |
 | patient | 患者（自动绑定演示病人） |
 
-量表题库种子：`scale_seed.sql`（8 量表 / 73 条目 / 172 选项），系统表结构变化后执行：
+量表题库种子：`scale_seed.sql`（8 量表 / 73 条目 / 172 选项）。**首次启动后需手动导入演示数据**（基础数据 + 量表题库），否则系统为空：
 
 ```bash
+# 基础数据（医生 / 病人 / 床位 / 治疗项目 / 演示记录）
+docker cp seed.sql rehab-mysql:/seed.sql
+docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf8mb4 rehab_system < /seed.sql"
+
+# 量表题库（含条目 / 选项 / 计分 / 分级规则）
 docker cp scale_seed.sql rehab-mysql:/scale_seed.sql
-docker exec -i rehab-mysql mysql -uroot -p123456 rehab_system < /scale_seed.sql
+docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf8mb4 rehab_system < /scale_seed.sql"
 ```
+
+> 系统表结构变化后：重启 backend 自动更新表结构，再重新执行一次上述导入即可。
 
 ## 项目结构
 
