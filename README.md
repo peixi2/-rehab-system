@@ -22,15 +22,15 @@
 
 ## 快速启动
 
-```bash
-# 1. 构建后端 jar
-mvn -f pom.xml package -DskipTests
+**仅需安装 Docker**，一条命令完成构建与启动（后端在容器内用 Maven 编译，无需本地 JDK/Maven）：
 
-# 2. 一键启动三容器
+```bash
 docker compose up --build -d
 ```
 
 访问 http://localhost:8081 （前端 8081 / 后端 API 8082 / MySQL 3307）
+
+> 首次构建需联网拉取依赖；国内网络若拉取镜像缓慢，可配置 Docker 镜像加速器（如 docker.1ms.run）。
 
 首次启动自动建表并初始化默认账号（密码均为 `123456`）：
 
