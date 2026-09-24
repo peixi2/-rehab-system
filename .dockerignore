@@ -1,0 +1,6 @@
+target/*
+!target/rehab-system-1.0.0.jar
+.idea/
+*.iml
+.git/
+frontend/

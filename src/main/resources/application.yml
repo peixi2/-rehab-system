@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: rehab-system
+  datasource:
+    url: jdbc:mysql://localhost:3306/rehab_system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: "123456"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      # 开发阶段自动按实体更新表结构，部署时可改为 validate
+      ddl-auto: update
+    show-sql: false
+
+jwt:
+  # 生产环境应通过环境变量覆盖
+  secret: rehab-system-jwt-secret-key-2026-lin-kaixuan-rehab-evaluation-management
+  expiration-hours: 24
+
+logging:
+  level:
+    com.rehab.system: info
