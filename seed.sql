@@ -35,15 +35,15 @@ INSERT INTO bed (id, bed_no, room_no, status, create_time) VALUES
 (10, '201-1', '201', '占用', NOW());
 
 -- 评估项目（8项）
-INSERT INTO assessment_item (id, name, description, create_time) VALUES
-(1, 'Fugl-Meyer运动功能评定', '评定脑卒中后运动功能障碍程度，总分100分', NOW()),
-(2, 'Barthel指数评定量表', '评定日常生活活动能力，总分100分', NOW()),
-(3, 'Berg平衡量表', '评定平衡功能，总分56分', NOW()),
-(4, 'Holden步行功能分级', '评定步行能力，分为0-5级', NOW()),
-(5, '改良Ashworth痉挛评定量表', '评定肌张力与痉挛程度，分为0-4级', NOW()),
-(6, 'MMSE简易精神状态检查', '评定认知功能，总分30分', NOW()),
-(7, 'VAS视觉模拟评分', '疼痛程度自评，0-10分', NOW()),
-(8, '关节活动度测量', '测量关节活动范围，以度数表示', NOW());
+INSERT INTO assessment_item (id, name, description, status, create_time) VALUES
+(1, 'Fugl-Meyer运动功能评定', '评定脑卒中后运动功能障碍程度，总分100分', '启用', NOW()),
+(2, 'Barthel指数评定量表', '评定日常生活活动能力，总分100分', '启用', NOW()),
+(3, 'Berg平衡量表', '评定平衡功能，总分56分', '启用', NOW()),
+(4, 'Holden步行功能分级', '评定步行能力，分为0-5级', '启用', NOW()),
+(5, '改良Ashworth痉挛评定量表', '评定肌张力与痉挛程度，分为0-4级', '启用', NOW()),
+(6, 'MMSE简易精神状态检查', '评定认知功能，总分30分', '启用', NOW()),
+(7, 'VAS视觉模拟评分', '疼痛程度自评，0-10分', '启用', NOW()),
+(8, '关节活动度测量', '测量关节活动范围，以度数表示', '启用', NOW());
 
 -- 治疗项目（8项）
 INSERT INTO treatment_item (id, name, description, duration_minutes, create_time) VALUES
