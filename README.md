@@ -60,12 +60,6 @@ docker exec -i rehab-mysql mysql -uroot -p123456 rehab_system < /scale_seed.sql
 │       ├── security/    # JWT 认证
 │       └── config/      # 安全配置、数据初始化
 ├── frontend/            # Vue 3 前端（Nginx 部署）
-├── docs/                # 项目计划书、可行性分析报告、简历总结
 ├── scale_seed.sql       # 量表题库种子数据
 └── docker-compose.yml   # 三容器编排
 ```
-
-## 相关文档
-
-- [项目计划书（14 周）](docs/项目计划书.md)
-- [可行性分析报告](docs/可行性分析报告.md)
