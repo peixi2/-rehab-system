@@ -16,7 +16,7 @@
 
 ## 技术栈
 
-- **后端**：Spring Boot 3.5 · Spring Security + JWT · Spring Data JPA · MySQL 8
+- **后端**：Java 21 · Spring Boot 3.5 · Spring Security + JWT · Spring Data JPA · MySQL 8
 - **前端**：Vue 3 · Vite · Element Plus · ECharts
 - **部署**：Docker / Docker Compose（三容器：MySQL + 后端 + Nginx 前端）
 
@@ -55,6 +55,38 @@ docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf
 ```
 
 > 系统表结构变化后：重启 backend 自动更新表结构，再重新执行一次上述导入即可。
+
+## Render 免费演示部署
+
+仓库根目录的 `render.yaml` 会创建一个 Docker Web Service。生产镜像先构建 Vue，
+再把静态文件打进 Spring Boot，因此前端、API 和 HTTPS 地址都由同一个 Render 服务提供。
+
+数据库使用独立的云 MySQL，不能使用 Render 容器内文件保存业务数据。首次连接空数据库时，
+应用会自动建表、导入 `seed.sql` 与 `scale_seed.sql`，并写入 `demo-v1` 标记；重启或重新部署
+不会再次清空和导入数据。
+
+在 Render 选择 **New > Blueprint** 并连接本仓库，然后填写：
+
+| 环境变量 | 说明 |
+| --- | --- |
+| `DB_URL` | JDBC MySQL 地址，建议包含 `sslMode=REQUIRED&createDatabaseIfNotExist=true` |
+| `DB_USERNAME` / `DB_PASSWORD` | 云 MySQL 账号与密码 |
+| `DEMO_PASSWORD` | 五个演示账号共用的强密码，不要提交到 GitHub |
+
+`JWT_SECRET` 由 Render 自动生成。Aiven MySQL 的示例 URL：
+
+```text
+jdbc:mysql://HOST:PORT/rehab_system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&sslMode=REQUIRED&createDatabaseIfNotExist=true
+```
+
+部署后检查：
+
+```text
+https://rehab-system-demo.onrender.com/health
+```
+
+返回 `{"application":"ok","database":"ok"}` 表示应用与持久化数据库均正常。免费服务闲置后
+会休眠，面试前请提前访问一次完成冷启动。
 
 ## 项目结构
 

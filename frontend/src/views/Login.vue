@@ -20,7 +20,7 @@
           登 录
         </el-button>
       </el-form>
-      <el-divider>演示账号（密码均为 123456）</el-divider>
+      <el-divider>演示账号（点击填入用户名）</el-divider>
       <div class="demo-accounts">
         <el-tag v-for="acc in accounts" :key="acc.username" class="account-tag" @click="fill(acc)">
           {{ acc.label }}：{{ acc.username }}
@@ -41,15 +41,15 @@ const form = ref({ username: '', password: '' })
 const loading = ref(false)
 
 const accounts = [
-  { username: 'admin', password: '123456', label: '管理员' },
-  { username: 'doctor', password: '123456', label: '医师' },
-  { username: 'therapist', password: '123456', label: '治疗师' },
-  { username: 'deptadmin', password: '123456', label: '科室管理员' },
-  { username: 'patient', password: '123456', label: '患者' }
+  { username: 'admin', label: '管理员' },
+  { username: 'doctor', label: '医师' },
+  { username: 'therapist', label: '治疗师' },
+  { username: 'deptadmin', label: '科室管理员' },
+  { username: 'patient', label: '患者' }
 ]
 
 function fill(acc) {
-  form.value = { username: acc.username, password: acc.password }
+  form.value.username = acc.username
 }
 
 async function login() {

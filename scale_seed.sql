@@ -3,10 +3,6 @@
 --       docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf8mb4 rehab_system < /scale_seed.sql"
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE scale_option;
-TRUNCATE TABLE scale_item;
-SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============ 1. 更新量表基础信息（编码/版本/指导语/分级规则） ============
 UPDATE assessment_item SET code='FMA', version='1.0', status='启用',

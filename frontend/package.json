@@ -11,13 +11,17 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.7.7",
-    "echarts": "^5.5.1",
+    "echarts": "^6.1.0",
     "element-plus": "^2.8.4",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.1.4",
-    "vite": "^5.4.9"
+    "@vitejs/plugin-vue": "^6.0.10",
+    "vite": "^8.3.5"
+  },
+  "overrides": {
+    "follow-redirects": "^1.16.1",
+    "source-map-js": "^1.2.2"
   }
 }

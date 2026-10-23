@@ -5,33 +5,48 @@ import com.rehab.system.entity.SysUser;
 import com.rehab.system.repository.PatientRepository;
 import com.rehab.system.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Slf4j
 @Component
+@Order(2)
 public class DataInitializer implements CommandLineRunner {
+
+    private static final List<DemoAccount> DEMO_ACCOUNTS = List.of(
+            new DemoAccount("admin", RoleConstants.ADMIN, "系统管理员", null),
+            new DemoAccount("doctor", RoleConstants.DOCTOR, "张建国", 1L),
+            new DemoAccount("therapist", RoleConstants.THERAPIST, "刘洋", 5L),
+            new DemoAccount("deptadmin", RoleConstants.DEPT_ADMIN, "科室管理员", null),
+            new DemoAccount("patient", RoleConstants.PATIENT, "赵国强", null)
+    );
 
     private final UserRepository userRepository;
     private final PatientRepository patientRepository;
     private final PasswordEncoder passwordEncoder;
+    private final String demoPassword;
 
-    public DataInitializer(UserRepository userRepository, PatientRepository patientRepository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(UserRepository userRepository,
+                           PatientRepository patientRepository,
+                           PasswordEncoder passwordEncoder,
+                           @Value("${app.demo.password}") String demoPassword) {
         this.userRepository = userRepository;
         this.patientRepository = patientRepository;
         this.passwordEncoder = passwordEncoder;
+        this.demoPassword = demoPassword;
     }
 
     @Override
     public void run(String... args) {
-        createIfAbsent("admin", "123456", RoleConstants.ADMIN, "系统管理员", null);
-        createIfAbsent("doctor", "123456", RoleConstants.DOCTOR, "张建国", 1L);
-        createIfAbsent("therapist", "123456", RoleConstants.THERAPIST, "刘洋", 5L);
-        createIfAbsent("deptadmin", "123456", RoleConstants.DEPT_ADMIN, "科室管理员", null);
-        createIfAbsent("patient", "123456", RoleConstants.PATIENT, "赵国强", null);
+        String encodedPassword = passwordEncoder.encode(demoPassword);
+        DEMO_ACCOUNTS.forEach(account -> upsertDemoAccount(account, encodedPassword));
         bindPatientAccountsByRealName();
-        log.info("默认账号初始化完成");
+        log.info("演示账号初始化及密码同步完成");
     }
 
     /** 患者账号未绑定病人时，按姓名自动关联同名病人 */
@@ -46,16 +61,20 @@ public class DataInitializer implements CommandLineRunner {
                         }));
     }
 
-    private void createIfAbsent(String username, String rawPassword, String role, String realName, Long doctorId) {
-        if (!userRepository.existsByUsername(username)) {
-            SysUser user = new SysUser();
-            user.setUsername(username);
-            user.setPassword(passwordEncoder.encode(rawPassword));
-            user.setRole(role);
-            user.setRealName(realName);
-            user.setDoctorId(doctorId);
-            user.setEnabled(true);
-            userRepository.save(user);
-        }
+    private void upsertDemoAccount(DemoAccount account, String encodedPassword) {
+        SysUser user = userRepository.findByUsername(account.username()).orElseGet(() -> {
+            SysUser created = new SysUser();
+            created.setUsername(account.username());
+            created.setRole(account.role());
+            created.setRealName(account.realName());
+            created.setDoctorId(account.doctorId());
+            created.setEnabled(true);
+            return created;
+        });
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+    }
+
+    private record DemoAccount(String username, String role, String realName, Long doctorId) {
     }
 }

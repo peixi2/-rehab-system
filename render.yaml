@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: rehab-system-demo
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DEMO_PASSWORD
+        sync: false
+      - key: DEMO_SEED_ENABLED
+        value: "true"
+      - key: TZ
+        value: Asia/Shanghai
+      - key: JAVA_OPTS
+        value: -Xms128m -Xmx320m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -Duser.timezone=Asia/Shanghai

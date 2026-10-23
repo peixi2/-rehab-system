@@ -18,7 +18,7 @@
     <description>康复评估过程管理系统</description>
 
     <properties>
-        <java.version>19</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <dependencies>
@@ -87,6 +87,19 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <targetPath>db</targetPath>
+                <includes>
+                    <include>seed.sql</include>
+                    <include>scale_seed.sql</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

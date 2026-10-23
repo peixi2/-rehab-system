@@ -3,15 +3,6 @@
 --           docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf8mb4 rehab_system < /seed.sql"
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE assessment_record;
-TRUNCATE TABLE treatment_record;
-TRUNCATE TABLE patient;
-TRUNCATE TABLE bed;
-TRUNCATE TABLE doctor;
-TRUNCATE TABLE assessment_item;
-TRUNCATE TABLE treatment_item;
-SET FOREIGN_KEY_CHECKS = 1;
 
 -- 医生（5人）
 INSERT INTO doctor (id, name, gender, title, department, phone, create_time) VALUES

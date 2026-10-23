@@ -1,14 +1,16 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
     name: rehab-system
   datasource:
-    url: jdbc:mysql://localhost:3306/rehab_system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: "123456"
+    url: ${DB_URL:jdbc:mysql://localhost:3306/rehab_system?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-init-sql: SET time_zone = '+08:00'
   jpa:
     hibernate:
       # 开发阶段自动按实体更新表结构，部署时可改为 validate
@@ -16,9 +18,13 @@ spring:
     show-sql: false
 
 jwt:
-  # 生产环境应通过环境变量覆盖
-  secret: rehab-system-jwt-secret-key-2026-lin-kaixuan-rehab-evaluation-management
-  expiration-hours: 24
+  secret: ${JWT_SECRET:rehab-system-local-development-secret-key-change-before-production}
+  expiration-hours: ${JWT_EXPIRATION_HOURS:24}
+
+app:
+  demo:
+    password: ${DEMO_PASSWORD:123456}
+    seed-enabled: ${DEMO_SEED_ENABLED:true}
 
 logging:
   level:
