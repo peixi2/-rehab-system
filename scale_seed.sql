@@ -2,8 +2,6 @@
 -- 导入：docker cp scale_seed.sql rehab-mysql:/scale_seed.sql
 --       docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf8mb4 rehab_system < /scale_seed.sql"
 
-SET NAMES utf8mb4;
-
 -- ============ 1. 更新量表基础信息（编码/版本/指导语/分级规则） ============
 UPDATE assessment_item SET code='FMA', version='1.0', status='启用',
   instructions='按患者实际完成动作情况评分：0分=不能完成，1分=部分完成，2分=充分完成。本示例版收录上肢核心条目10项，满分20分；临床完整版共50项。',

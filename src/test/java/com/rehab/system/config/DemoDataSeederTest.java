@@ -26,7 +26,7 @@ class DemoDataSeederTest {
         DemoDataSeeder seeder = spy(new DemoDataSeeder(jdbcTemplate, true));
         when(jdbcTemplate.queryForObject(anyString(), eq(Integer.class), eq("demo-v1")))
                 .thenReturn(0);
-        when(jdbcTemplate.queryForObject(startsWith("SELECT EXISTS"), eq(Integer.class)))
+        when(jdbcTemplate.queryForObject(startsWith("SELECT COUNT(*)"), eq(Integer.class)))
                 .thenAnswer(invocation -> invocation.<String>getArgument(0).contains("`patient`") ? 1 : 0);
 
         seeder.run();
@@ -41,7 +41,7 @@ class DemoDataSeederTest {
         doNothing().when(seeder).executeSeedScripts();
         when(jdbcTemplate.queryForObject(anyString(), eq(Integer.class), eq("demo-v1")))
                 .thenReturn(0);
-        when(jdbcTemplate.queryForObject(startsWith("SELECT EXISTS"), eq(Integer.class)))
+        when(jdbcTemplate.queryForObject(startsWith("SELECT COUNT(*)"), eq(Integer.class)))
                 .thenReturn(0);
 
         seeder.run();
@@ -60,7 +60,7 @@ class DemoDataSeederTest {
 
         seeder.run();
 
-        verify(jdbcTemplate, never()).queryForObject(startsWith("SELECT EXISTS"), eq(Integer.class));
+        verify(jdbcTemplate, never()).queryForObject(startsWith("SELECT COUNT(*)"), eq(Integer.class));
         verify(seeder, never()).executeSeedScripts();
     }
 }

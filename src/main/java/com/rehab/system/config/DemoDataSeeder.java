@@ -53,7 +53,7 @@ public class DemoDataSeeder implements CommandLineRunner {
                 CREATE TABLE IF NOT EXISTS app_seed_version (
                     seed_key VARCHAR(64) PRIMARY KEY,
                     applied_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+                )
                 """);
 
         Integer applied = jdbcTemplate.queryForObject(
@@ -82,7 +82,7 @@ public class DemoDataSeeder implements CommandLineRunner {
     String findPopulatedBusinessTable() {
         for (String table : BUSINESS_TABLES) {
             Integer hasRows = jdbcTemplate.queryForObject(
-                    "SELECT EXISTS (SELECT 1 FROM `" + table + "` LIMIT 1)",
+                    "SELECT COUNT(*) FROM `" + table + "`",
                     Integer.class);
             if (hasRows != null && hasRows > 0) {
                 return table;

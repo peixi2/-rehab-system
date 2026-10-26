@@ -72,6 +72,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Render demo fallback when the external free MySQL service is asleep. -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Lombok：省去 getter/setter 样板代码 -->
         <dependency>
             <groupId>org.projectlombok</groupId>

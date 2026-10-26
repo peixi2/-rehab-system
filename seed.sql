@@ -2,8 +2,6 @@
 -- 重新导入：docker cp seed.sql rehab-mysql:/seed.sql
 --           docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf8mb4 rehab_system < /seed.sql"
 
-SET NAMES utf8mb4;
-
 -- 医生（5人）
 INSERT INTO doctor (id, name, gender, title, department, phone, create_time) VALUES
 (1, '张建国', '男', '主任医师', '康复医学科', '13801234567', NOW()),
