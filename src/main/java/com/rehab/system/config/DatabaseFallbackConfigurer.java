@@ -10,7 +10,7 @@ import java.sql.SQLException;
 @Slf4j
 public final class DatabaseFallbackConfigurer {
 
-    private static final int LOGIN_TIMEOUT_SECONDS = 4;
+    private static final int LOGIN_TIMEOUT_SECONDS = 15;
 
     private DatabaseFallbackConfigurer() {
     }
