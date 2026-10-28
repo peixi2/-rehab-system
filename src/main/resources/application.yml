@@ -24,6 +24,7 @@ jwt:
 app:
   demo:
     password: ${DEMO_PASSWORD:123456}
+    admin-password: ${DEMO_ADMIN_PASSWORD:${DEMO_PASSWORD:123456}}
     seed-enabled: ${DEMO_SEED_ENABLED:true}
 
 logging:

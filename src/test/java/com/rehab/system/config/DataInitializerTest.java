@@ -39,6 +39,7 @@ class DataInitializerTest {
         SysUser admin = user("admin", RoleConstants.ADMIN, "old-hash");
         SysUser custom = user("custom-admin", RoleConstants.ADMIN, "custom-hash");
         when(passwordEncoder.encode("new-demo-password")).thenReturn("new-hash");
+        when(passwordEncoder.encode("new-admin-password")).thenReturn("new-admin-hash");
         when(userRepository.findByUsername("admin")).thenReturn(Optional.of(admin));
         when(userRepository.findByUsername("doctor")).thenReturn(Optional.empty());
         when(userRepository.findByUsername("therapist")).thenReturn(Optional.empty());
@@ -46,7 +47,12 @@ class DataInitializerTest {
         when(userRepository.findByUsername("patient")).thenReturn(Optional.empty());
         when(userRepository.findAll()).thenReturn(List.of(custom));
 
-        new DataInitializer(userRepository, patientRepository, passwordEncoder, "new-demo-password").run();
+        new DataInitializer(
+                userRepository,
+                patientRepository,
+                passwordEncoder,
+                "new-demo-password",
+                "new-admin-password").run();
 
         ArgumentCaptor<SysUser> savedUsers = ArgumentCaptor.forClass(SysUser.class);
         verify(userRepository, org.mockito.Mockito.times(5)).save(savedUsers.capture());
@@ -54,7 +60,13 @@ class DataInitializerTest {
                 .map(SysUser::getUsername)
                 .collect(Collectors.toSet());
         assertEquals(Set.of("admin", "doctor", "therapist", "deptadmin", "patient"), savedNames);
+        assertEquals("new-admin-hash", savedUsers.getAllValues().stream()
+                .filter(user -> "admin".equals(user.getUsername()))
+                .findFirst()
+                .orElseThrow()
+                .getPassword());
         assertFalse(savedUsers.getAllValues().stream()
+                .filter(user -> !"admin".equals(user.getUsername()))
                 .anyMatch(user -> !"new-hash".equals(user.getPassword())));
         assertEquals("custom-hash", custom.getPassword());
     }

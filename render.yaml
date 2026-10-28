@@ -25,6 +25,8 @@ services:
         generateValue: true
       - key: DEMO_PASSWORD
         sync: false
+      - key: DEMO_ADMIN_PASSWORD
+        sync: false
       - key: DEMO_SEED_ENABLED
         value: "true"
       - key: TZ

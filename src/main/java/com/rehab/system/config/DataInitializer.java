@@ -30,21 +30,27 @@ public class DataInitializer implements CommandLineRunner {
     private final PatientRepository patientRepository;
     private final PasswordEncoder passwordEncoder;
     private final String demoPassword;
+    private final String adminPassword;
 
     public DataInitializer(UserRepository userRepository,
                            PatientRepository patientRepository,
                            PasswordEncoder passwordEncoder,
-                           @Value("${app.demo.password}") String demoPassword) {
+                           @Value("${app.demo.password}") String demoPassword,
+                           @Value("${app.demo.admin-password:${app.demo.password}}") String adminPassword) {
         this.userRepository = userRepository;
         this.patientRepository = patientRepository;
         this.passwordEncoder = passwordEncoder;
         this.demoPassword = demoPassword;
+        this.adminPassword = adminPassword;
     }
 
     @Override
     public void run(String... args) {
         String encodedPassword = passwordEncoder.encode(demoPassword);
-        DEMO_ACCOUNTS.forEach(account -> upsertDemoAccount(account, encodedPassword));
+        String encodedAdminPassword = passwordEncoder.encode(adminPassword);
+        DEMO_ACCOUNTS.forEach(account -> upsertDemoAccount(
+                account,
+                "admin".equals(account.username()) ? encodedAdminPassword : encodedPassword));
         bindPatientAccountsByRealName();
         log.info("演示账号初始化及密码同步完成");
     }

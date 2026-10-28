@@ -72,7 +72,8 @@ docker exec rehab-mysql sh -c "mysql -uroot -p123456 --default-character-set=utf
 | --- | --- |
 | `DB_URL` | JDBC MySQL 地址，建议包含 `sslMode=REQUIRED&createDatabaseIfNotExist=true` |
 | `DB_USERNAME` / `DB_PASSWORD` | 云 MySQL 账号与密码 |
-| `DEMO_PASSWORD` | 五个演示账号共用的强密码，不要提交到 GitHub |
+| `DEMO_PASSWORD` | 除 `admin` 外四个演示账号共用的强密码，不要提交到 GitHub |
+| `DEMO_ADMIN_PASSWORD` | `admin` 的独立密码；未设置时回退到 `DEMO_PASSWORD` |
 | `DB_FALLBACK_EMBEDDED` | 云 MySQL 不可用时启用内置演示库，Blueprint 默认为 `true` |
 
 `JWT_SECRET` 由 Render 自动生成。Aiven MySQL 的示例 URL：
